@@ -18,7 +18,7 @@ pub struct CallerCounter {
     pub counter: felt252,
 }
 
-#[derive(Drop, Serde)]
+#[derive(Debug, Drop, Serde)]
 #[dojo::model]
 pub struct Messages {
     #[key]
@@ -26,7 +26,7 @@ pub struct Messages {
     pub messages: Array<Message>,
 }
 
-#[derive(Serde, Drop, Introspect)]
+#[derive(Debug, Serde, Drop, Introspect)]
 #[dojo::model]
 pub struct Message {
     #[key]

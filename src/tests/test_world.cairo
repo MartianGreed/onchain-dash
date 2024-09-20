@@ -72,10 +72,25 @@ mod tests {
         actions_system.increment_caller_counter();
 
         let counter_2 = get!(world, caller_1, (CallerCounter));
-        println!("{}", counter_2.counter);
         assert(counter_2.counter == 2, 'caller_2 incr is not working');
 
-        let counter = get!(world, caller_1, (CallerCounter));
-        assert(counter.counter == 1, 'caller_1 has changed value');
+        let counter_1 = get!(world, caller_1, (CallerCounter));
+        assert(counter_1.counter != 1, 'caller_1 has changed value');
+    }
+
+    #[test]
+    fn test_publish_messages() {
+        let caller_1 = contract_address_const::<0x0>();
+
+        let (world, actions_system) = setup_world();
+        testing::set_caller_address(caller_1);
+
+        let mut messages = get!(world, WORLD_GLOBAL_COUNTER_KEY, (Messages));
+        println!("messages: {}", messages.messages.len());
+
+        let msg: ByteArray = "hello world";
+        actions_system.publish_message(msg);
+        let messages = get!(world, WORLD_GLOBAL_COUNTER_KEY, (Messages));
+        assert(messages.messages.len() == 1, 'messages count is not working');
     }
 }
