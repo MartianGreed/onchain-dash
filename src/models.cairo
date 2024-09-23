@@ -17,19 +17,3 @@ pub struct CallerCounter {
     pub caller: ContractAddress,
     pub counter: felt252,
 }
-
-#[derive(Debug, Drop, Serde)]
-#[dojo::model]
-pub struct Messages {
-    #[key]
-    global_message_key: u32,
-    pub messages: Array<Message>,
-}
-
-#[derive(Debug, Serde, Drop, Introspect)]
-#[dojo::model]
-pub struct Message {
-    #[key]
-    pub caller: ContractAddress,
-    pub message: ByteArray,
-}

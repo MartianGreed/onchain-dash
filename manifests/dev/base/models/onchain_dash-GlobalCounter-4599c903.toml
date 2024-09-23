@@ -1,0 +1,17 @@
+kind = "DojoModel"
+class_hash = "0x51bebf9a1f89133c18cf1b7d3657a22c062f692ac08cf41b5762070c07c45dd"
+original_class_hash = "0x51bebf9a1f89133c18cf1b7d3657a22c062f692ac08cf41b5762070c07c45dd"
+abi = "manifests/dev/base/abis/models/onchain_dash-GlobalCounter-4599c903.json"
+tag = "onchain_dash-GlobalCounter"
+qualified_path = "onchain_dash::models::global_counter"
+manifest_name = "onchain_dash-GlobalCounter-4599c903"
+
+[[members]]
+name = "global_counter_key"
+type = "u32"
+key = true
+
+[[members]]
+name = "counter"
+type = "felt252"
+key = false

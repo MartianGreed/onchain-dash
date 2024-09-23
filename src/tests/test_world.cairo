@@ -7,16 +7,15 @@ mod tests {
     // import test utils
     use onchain_dash::{
         systems::{actions::{actions, IActionsDispatcher, IActionsDispatcherTrait}},
-        models::{{GlobalCounter, CallerCounter, Messages, Message, WORLD_GLOBAL_COUNTER_KEY}},
+        models::{{GlobalCounter, CallerCounter, WORLD_GLOBAL_COUNTER_KEY}},
     };
-    use onchain_dash::models::{global_counter, caller_counter, messages};
+    use onchain_dash::models::{global_counter, caller_counter};
     use starknet::{testing, contract_address_const};
 
     fn setup_world() -> (IWorldDispatcher, IActionsDispatcher) {
         let mut models = array![
             global_counter::TEST_CLASS_HASH,
             caller_counter::TEST_CLASS_HASH,
-            messages::TEST_CLASS_HASH
         ];
         // models
 
@@ -76,21 +75,5 @@ mod tests {
 
         let counter_1 = get!(world, caller_1, (CallerCounter));
         assert(counter_1.counter != 1, 'caller_1 has changed value');
-    }
-
-    #[test]
-    fn test_publish_messages() {
-        let caller_1 = contract_address_const::<0x0>();
-
-        let (world, actions_system) = setup_world();
-        testing::set_caller_address(caller_1);
-
-        let mut messages = get!(world, WORLD_GLOBAL_COUNTER_KEY, (Messages));
-        println!("messages: {}", messages.messages.len());
-
-        let msg: ByteArray = "hello world";
-        actions_system.publish_message(msg);
-        let messages = get!(world, WORLD_GLOBAL_COUNTER_KEY, (Messages));
-        assert(messages.messages.len() == 1, 'messages count is not working');
     }
 }

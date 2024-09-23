@@ -1,0 +1,77 @@
+[world]
+kind = "WorldContract"
+class_hash = "0x6f4515274ee23404789c3351a77107d0ec07508530119822046600ca6948d6e"
+original_class_hash = "0x6f4515274ee23404789c3351a77107d0ec07508530119822046600ca6948d6e"
+abi = "manifests/dev/deployment/abis/dojo-world.json"
+address = "0x474cd7db48e8cc15b5d1c5151f6c423a7fe3818116fefd987c7780a4756522f"
+transaction_hash = "0x806010a28b83d6128a9a01a2c0720217c843f3580cc30329b0c3c62a65800e"
+block_number = 3
+seed = "onchain_dash"
+manifest_name = "dojo-world"
+
+[world.metadata]
+profile_name = "dev"
+rpc_url = "http://localhost:5050/"
+
+[base]
+kind = "Class"
+class_hash = "0x2427dd10a58850ac9a5ca6ce04b7771b05330fd18f2e481831ad903b969e6b2"
+original_class_hash = "0x2427dd10a58850ac9a5ca6ce04b7771b05330fd18f2e481831ad903b969e6b2"
+abi = "manifests/dev/deployment/abis/dojo-base.json"
+tag = "dojo-base"
+manifest_name = "dojo-base"
+
+[[contracts]]
+kind = "DojoContract"
+address = "0x99a0d579bcd0895bc044ba2b83f89c4687f8f4b0853345f1dc1f6835b043fd"
+class_hash = "0x214a28889ba8aa50482a1e08a935ab77082ec55a8a44619d67176f1a97f5a39"
+original_class_hash = "0x214a28889ba8aa50482a1e08a935ab77082ec55a8a44619d67176f1a97f5a39"
+base_class_hash = "0x2427dd10a58850ac9a5ca6ce04b7771b05330fd18f2e481831ad903b969e6b2"
+abi = "manifests/dev/deployment/abis/contracts/onchain_dash-actions-23b16c0c.json"
+reads = []
+writes = []
+init_calldata = []
+tag = "onchain_dash-actions"
+systems = [
+    "increment_global_counter",
+    "increment_caller_counter",
+]
+manifest_name = "onchain_dash-actions-23b16c0c"
+
+[[models]]
+kind = "DojoModel"
+class_hash = "0x2ffd996cbd21c803adbf093e39f16a07591ff2e080b707d92729be1c1e569b"
+original_class_hash = "0x2ffd996cbd21c803adbf093e39f16a07591ff2e080b707d92729be1c1e569b"
+abi = "manifests/dev/deployment/abis/models/onchain_dash-CallerCounter-5b035b49.json"
+tag = "onchain_dash-CallerCounter"
+qualified_path = "onchain_dash::models::caller_counter"
+manifest_name = "onchain_dash-CallerCounter-5b035b49"
+
+[[models.members]]
+name = "caller"
+type = "ContractAddress"
+key = true
+
+[[models.members]]
+name = "counter"
+type = "felt252"
+key = false
+
+[[models]]
+kind = "DojoModel"
+class_hash = "0x51bebf9a1f89133c18cf1b7d3657a22c062f692ac08cf41b5762070c07c45dd"
+original_class_hash = "0x51bebf9a1f89133c18cf1b7d3657a22c062f692ac08cf41b5762070c07c45dd"
+abi = "manifests/dev/deployment/abis/models/onchain_dash-GlobalCounter-4599c903.json"
+tag = "onchain_dash-GlobalCounter"
+qualified_path = "onchain_dash::models::global_counter"
+manifest_name = "onchain_dash-GlobalCounter-4599c903"
+
+[[models.members]]
+name = "global_counter_key"
+type = "u32"
+key = true
+
+[[models.members]]
+name = "counter"
+type = "felt252"
+key = false
