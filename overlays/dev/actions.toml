@@ -1,0 +1,2 @@
+tag = "onchain_dash-actions"
+writes = ["ns:onchain_dash"]

@@ -1,6 +1,6 @@
 [world]
 name = "Onchain Dash"
-seed = "onchain_dash"
+seed = "onchain_dash_release_1"
 
 [namespace]
 default = "onchain_dash"
@@ -9,4 +9,4 @@ default = "onchain_dash"
 rpc_url = "http://localhost:5050"
 account_address = "0xb3ff441a68610b30fd5e2abbf3a1548eb6ba6f3559f2862bf2dc757e5828ca"
 private_key = "0x2bbf4f9fd0bbb2e60b0316c1fe0b76cf7a4d0198bd493ced9b8df2a3a24d68a"
-world = "0x474cd7db48e8cc15b5d1c5151f6c423a7fe3818116fefd987c7780a4756522f"
+world = "0x6dd367f5e11f11e0502cb2c4db7ae9bb6d8b5a4a431750bed7bec88b218e12"
