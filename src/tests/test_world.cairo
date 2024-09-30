@@ -84,7 +84,7 @@ mod tests {
 
         let theme = get!(world, WORLD_THEME_KEY, (Theme));
         assert(theme.value == AvailableTheme::Light, 'theme initial value invalid');
-        actions_system.change_theme(AvailableTheme::Dark);
+        actions_system.change_theme(AvailableTheme::Dark.into());
         let theme = get!(world, WORLD_THEME_KEY, (Theme));
         assert(theme.value == AvailableTheme::Dark, 'theme change is not working');
     }

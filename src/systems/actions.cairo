@@ -5,7 +5,7 @@ use onchain_dash::models::AvailableTheme;
 trait IActions {
     fn increment_global_counter(ref world: IWorldDispatcher);
     fn increment_caller_counter(ref world: IWorldDispatcher);
-    fn change_theme(ref world: IWorldDispatcher, value: AvailableTheme);
+    fn change_theme(ref world: IWorldDispatcher, value: u8);
 }
 
 // dojo decorator
@@ -35,10 +35,10 @@ mod actions {
             set!(world, (counter));
         }
 
-        fn change_theme(ref world: IWorldDispatcher, value: AvailableTheme) {
+        fn change_theme(ref world: IWorldDispatcher, value: u8) {
             let caller = get_caller_address();
             let mut theme = get!(world, WORLD_THEME_KEY, (Theme));
-            theme.value = value;
+            theme.value = value.into();
             theme.caller = caller;
             theme.timestamp = starknet::get_block_timestamp();
 
