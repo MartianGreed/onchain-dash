@@ -1,8 +1,11 @@
+use onchain_dash::models::AvailableTheme;
+
 // define the interface
 #[dojo::interface]
 trait IActions {
     fn increment_global_counter(ref world: IWorldDispatcher);
     fn increment_caller_counter(ref world: IWorldDispatcher);
+    fn change_theme(ref world: IWorldDispatcher, value: AvailableTheme);
 }
 
 // dojo decorator
@@ -11,7 +14,7 @@ mod actions {
     use super::{IActions};
     use starknet::{ContractAddress, get_caller_address};
     use onchain_dash::models::{
-        GlobalCounter, CallerCounter, WORLD_GLOBAL_COUNTER_KEY
+        GlobalCounter, CallerCounter, WORLD_GLOBAL_COUNTER_KEY, Theme, WORLD_THEME_KEY, AvailableTheme
     };
 
 
@@ -30,6 +33,16 @@ mod actions {
             counter.counter += 1;
 
             set!(world, (counter));
+        }
+
+        fn change_theme(ref world: IWorldDispatcher, value: AvailableTheme) {
+            let caller = get_caller_address();
+            let mut theme = get!(world, WORLD_THEME_KEY, (Theme));
+            theme.value = value;
+            theme.caller = caller;
+            theme.timestamp = starknet::get_block_timestamp();
+
+            set!(world, (theme));
         }
     }
 }

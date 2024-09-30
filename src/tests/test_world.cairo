@@ -7,15 +7,16 @@ mod tests {
     // import test utils
     use onchain_dash::{
         systems::{actions::{actions, IActionsDispatcher, IActionsDispatcherTrait}},
-        models::{{GlobalCounter, CallerCounter, WORLD_GLOBAL_COUNTER_KEY}},
+        models::{{GlobalCounter, CallerCounter, WORLD_GLOBAL_COUNTER_KEY, Theme, WORLD_THEME_KEY, AvailableTheme}},
     };
-    use onchain_dash::models::{global_counter, caller_counter};
+    use onchain_dash::models::{global_counter, caller_counter, theme};
     use starknet::{testing, contract_address_const};
 
     fn setup_world() -> (IWorldDispatcher, IActionsDispatcher) {
         let mut models = array![
             global_counter::TEST_CLASS_HASH,
             caller_counter::TEST_CLASS_HASH,
+            theme::TEST_CLASS_HASH,
         ];
         // models
 
@@ -75,5 +76,16 @@ mod tests {
 
         let counter_1 = get!(world, caller_1, (CallerCounter));
         assert(counter_1.counter != 1, 'caller_1 has changed value');
+    }
+
+    #[test]
+    fn test_theme() {
+        let (world, actions_system) = setup_world();
+
+        let theme = get!(world, WORLD_THEME_KEY, (Theme));
+        assert(theme.value == AvailableTheme::Light, 'theme initial value invalid');
+        actions_system.change_theme(AvailableTheme::Dark);
+        let theme = get!(world, WORLD_THEME_KEY, (Theme));
+        assert(theme.value == AvailableTheme::Dark, 'theme change is not working');
     }
 }
