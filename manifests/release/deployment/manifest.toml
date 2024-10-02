@@ -1,0 +1,130 @@
+[world]
+kind = "WorldContract"
+class_hash = "0x6f4515274ee23404789c3351a77107d0ec07508530119822046600ca6948d6e"
+original_class_hash = "0x6f4515274ee23404789c3351a77107d0ec07508530119822046600ca6948d6e"
+abi = "manifests/release/deployment/abis/dojo-world.json"
+address = "0x2484f08903ff18371071d3d242c0647e6ed6ea8fb9763f5cdc182cb9d726c4a"
+transaction_hash = "0x3f79aafc575b55edda04cf14486b593c71bd19548cf89fcf10807406489e28b"
+seed = "onchain_dash_release_2"
+manifest_name = "dojo-world"
+
+[world.metadata]
+profile_name = "release"
+rpc_url = "https://rpc.nethermind.io/sepolia-juno?apikey=KZvWx3liaWO5LFZqYYZ5iS9dWlvgmH7caKH7bARF6Uw6U0jqvRvOu8BjFOVvFxWX"
+
+[base]
+kind = "Class"
+class_hash = "0x2427dd10a58850ac9a5ca6ce04b7771b05330fd18f2e481831ad903b969e6b2"
+original_class_hash = "0x2427dd10a58850ac9a5ca6ce04b7771b05330fd18f2e481831ad903b969e6b2"
+abi = "manifests/release/deployment/abis/dojo-base.json"
+tag = "dojo-base"
+manifest_name = "dojo-base"
+
+[[contracts]]
+kind = "DojoContract"
+address = "0x75cec877a99cf1ed428a2409854a839e1e174b5570691b4a44a6fea7cdb550e"
+class_hash = "0x24a883a5ff2d4dd6ef833ac461f328f35b5d0ddee8d50eb094b1c25674b6e36"
+original_class_hash = "0x24a883a5ff2d4dd6ef833ac461f328f35b5d0ddee8d50eb094b1c25674b6e36"
+base_class_hash = "0x2427dd10a58850ac9a5ca6ce04b7771b05330fd18f2e481831ad903b969e6b2"
+abi = "manifests/release/deployment/abis/contracts/onchain_dash-actions-23b16c0c.json"
+reads = []
+writes = ["ns:onchain_dash"]
+init_calldata = []
+tag = "onchain_dash-actions"
+systems = [
+    "increment_global_counter",
+    "increment_caller_counter",
+    "change_theme",
+]
+manifest_name = "onchain_dash-actions-23b16c0c"
+
+[[models]]
+kind = "DojoModel"
+class_hash = "0x2ffd996cbd21c803adbf093e39f16a07591ff2e080b707d92729be1c1e569b"
+original_class_hash = "0x2ffd996cbd21c803adbf093e39f16a07591ff2e080b707d92729be1c1e569b"
+abi = "manifests/release/deployment/abis/models/onchain_dash-CallerCounter-5b035b49.json"
+tag = "onchain_dash-CallerCounter"
+qualified_path = "onchain_dash::models::caller_counter"
+manifest_name = "onchain_dash-CallerCounter-5b035b49"
+
+[[models.members]]
+name = "caller"
+type = "ContractAddress"
+key = true
+
+[[models.members]]
+name = "counter"
+type = "felt252"
+key = false
+
+[[models]]
+kind = "DojoModel"
+class_hash = "0x51bebf9a1f89133c18cf1b7d3657a22c062f692ac08cf41b5762070c07c45dd"
+original_class_hash = "0x51bebf9a1f89133c18cf1b7d3657a22c062f692ac08cf41b5762070c07c45dd"
+abi = "manifests/release/deployment/abis/models/onchain_dash-GlobalCounter-4599c903.json"
+tag = "onchain_dash-GlobalCounter"
+qualified_path = "onchain_dash::models::global_counter"
+manifest_name = "onchain_dash-GlobalCounter-4599c903"
+
+[[models.members]]
+name = "global_counter_key"
+type = "u32"
+key = true
+
+[[models.members]]
+name = "counter"
+type = "felt252"
+key = false
+
+[[models]]
+kind = "DojoModel"
+class_hash = "0x58a27e67ab243d9832a3690e8dd1ada73f1a354a5cca3d0ad915545dff0b868"
+original_class_hash = "0x58a27e67ab243d9832a3690e8dd1ada73f1a354a5cca3d0ad915545dff0b868"
+abi = "manifests/release/deployment/abis/models/onchain_dash-Message-50675f75.json"
+tag = "onchain_dash-Message"
+qualified_path = "onchain_dash::models::message"
+manifest_name = "onchain_dash-Message-50675f75"
+
+[[models.members]]
+name = "identity"
+type = "ContractAddress"
+key = true
+
+[[models.members]]
+name = "content"
+type = "ByteArray"
+key = false
+
+[[models.members]]
+name = "timestamp"
+type = "u64"
+key = true
+
+[[models]]
+kind = "DojoModel"
+class_hash = "0x4442e61a955bb6d5ca54b6ea43b676786dd02c65f95ee9dacab8b4e32a3a41a"
+original_class_hash = "0x4442e61a955bb6d5ca54b6ea43b676786dd02c65f95ee9dacab8b4e32a3a41a"
+abi = "manifests/release/deployment/abis/models/onchain_dash-Theme-614247de.json"
+tag = "onchain_dash-Theme"
+qualified_path = "onchain_dash::models::theme"
+manifest_name = "onchain_dash-Theme-614247de"
+
+[[models.members]]
+name = "theme_key"
+type = "u32"
+key = true
+
+[[models.members]]
+name = "value"
+type = "AvailableTheme"
+key = false
+
+[[models.members]]
+name = "caller"
+type = "ContractAddress"
+key = false
+
+[[models.members]]
+name = "timestamp"
+type = "u64"
+key = false

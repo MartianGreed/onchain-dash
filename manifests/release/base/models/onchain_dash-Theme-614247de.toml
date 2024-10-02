@@ -1,0 +1,27 @@
+kind = "DojoModel"
+class_hash = "0x4442e61a955bb6d5ca54b6ea43b676786dd02c65f95ee9dacab8b4e32a3a41a"
+original_class_hash = "0x4442e61a955bb6d5ca54b6ea43b676786dd02c65f95ee9dacab8b4e32a3a41a"
+abi = "manifests/release/base/abis/models/onchain_dash-Theme-614247de.json"
+tag = "onchain_dash-Theme"
+qualified_path = "onchain_dash::models::theme"
+manifest_name = "onchain_dash-Theme-614247de"
+
+[[members]]
+name = "theme_key"
+type = "u32"
+key = true
+
+[[members]]
+name = "value"
+type = "AvailableTheme"
+key = false
+
+[[members]]
+name = "caller"
+type = "ContractAddress"
+key = false
+
+[[members]]
+name = "timestamp"
+type = "u64"
+key = false

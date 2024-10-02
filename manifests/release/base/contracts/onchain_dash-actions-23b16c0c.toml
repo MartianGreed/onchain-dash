@@ -1,0 +1,15 @@
+kind = "DojoContract"
+class_hash = "0x24a883a5ff2d4dd6ef833ac461f328f35b5d0ddee8d50eb094b1c25674b6e36"
+original_class_hash = "0x24a883a5ff2d4dd6ef833ac461f328f35b5d0ddee8d50eb094b1c25674b6e36"
+base_class_hash = "0x0"
+abi = "manifests/release/base/abis/contracts/onchain_dash-actions-23b16c0c.json"
+reads = []
+writes = []
+init_calldata = []
+tag = "onchain_dash-actions"
+systems = [
+    "increment_global_counter",
+    "increment_caller_counter",
+    "change_theme",
+]
+manifest_name = "onchain_dash-actions-23b16c0c"

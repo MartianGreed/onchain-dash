@@ -1,0 +1,22 @@
+kind = "DojoModel"
+class_hash = "0x194fe2f9864b982afbb7b8df5fb4a0eeb64d3281a3cb30736a69246c8ac2579"
+original_class_hash = "0x194fe2f9864b982afbb7b8df5fb4a0eeb64d3281a3cb30736a69246c8ac2579"
+abi = "manifests/dev/base/abis/models/onchain_dash-Message-50675f75.json"
+tag = "onchain_dash-Message"
+qualified_path = "onchain_dash::models::message"
+manifest_name = "onchain_dash-Message-50675f75"
+
+[[members]]
+name = "identity"
+type = "ContractAddress"
+key = true
+
+[[members]]
+name = "content"
+type = "ByteArray"
+key = false
+
+[[members]]
+name = "timestamp"
+type = "u64"
+key = false

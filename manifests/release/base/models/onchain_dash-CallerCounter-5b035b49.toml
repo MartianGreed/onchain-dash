@@ -1,0 +1,17 @@
+kind = "DojoModel"
+class_hash = "0x2ffd996cbd21c803adbf093e39f16a07591ff2e080b707d92729be1c1e569b"
+original_class_hash = "0x2ffd996cbd21c803adbf093e39f16a07591ff2e080b707d92729be1c1e569b"
+abi = "manifests/release/base/abis/models/onchain_dash-CallerCounter-5b035b49.json"
+tag = "onchain_dash-CallerCounter"
+qualified_path = "onchain_dash::models::caller_counter"
+manifest_name = "onchain_dash-CallerCounter-5b035b49"
+
+[[members]]
+name = "caller"
+type = "ContractAddress"
+key = true
+
+[[members]]
+name = "counter"
+type = "felt252"
+key = false
