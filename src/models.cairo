@@ -27,6 +27,7 @@ pub struct Message {
     #[key]
     pub identity: ContractAddress,
     pub content: ByteArray,
+    #[key]
     pub timestamp: u64,
 }
 

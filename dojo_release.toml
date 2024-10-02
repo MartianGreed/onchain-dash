@@ -1,6 +1,6 @@
 [world]
 name = "Onchain Dash"
-seed = "onchain_dash_release_1"
+seed = "onchain_dash_release_2"
 
 [namespace]
 default = "onchain_dash"
