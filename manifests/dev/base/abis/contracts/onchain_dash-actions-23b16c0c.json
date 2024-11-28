@@ -148,6 +148,18 @@
         "inputs": [],
         "outputs": [],
         "state_mutability": "external"
+      },
+      {
+        "type": "function",
+        "name": "change_theme",
+        "inputs": [
+          {
+            "name": "value",
+            "type": "core::integer::u8"
+          }
+        ],
+        "outputs": [],
+        "state_mutability": "external"
       }
     ]
   },

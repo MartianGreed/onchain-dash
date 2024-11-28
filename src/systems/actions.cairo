@@ -1,48 +1,52 @@
 use onchain_dash::models::AvailableTheme;
 
 // define the interface
-#[dojo::interface]
-trait IActions {
-    fn increment_global_counter(ref world: IWorldDispatcher);
-    fn increment_caller_counter(ref world: IWorldDispatcher);
-    fn change_theme(ref world: IWorldDispatcher, value: u8);
+#[starknet::interface]
+trait IActions<T> {
+    fn increment_global_counter(ref self: T);
+    fn increment_caller_counter(ref self: T);
+    fn change_theme(ref self: T, value: u8);
 }
 
 // dojo decorator
 #[dojo::contract]
 mod actions {
     use super::{IActions};
-    use starknet::{ContractAddress, get_caller_address};
+    use dojo::model::{ModelStorage, ModelValueStorage};
     use onchain_dash::models::{
-        GlobalCounter, CallerCounter, WORLD_GLOBAL_COUNTER_KEY, Theme, WORLD_THEME_KEY, AvailableTheme
+        GlobalCounter, CallerCounter, WORLD_GLOBAL_COUNTER_KEY, Theme, WORLD_THEME_KEY,
+        AvailableTheme
     };
-
+    use starknet::{ContractAddress, get_caller_address};
 
     #[abi(embed_v0)]
     impl ActionsImpl of IActions<ContractState> {
-        fn increment_global_counter(ref world: IWorldDispatcher) {
-            let mut counter = get!(world, WORLD_GLOBAL_COUNTER_KEY, (GlobalCounter));
+        fn increment_global_counter(ref self: ContractState) {
+            let mut world = self.world(@"onchain_dash");
+            let mut counter: GlobalCounter = world.read_model(WORLD_GLOBAL_COUNTER_KEY);
             counter.counter += 1;
 
-            set!(world, (counter));
+            world.write_model(@counter);
         }
 
-        fn increment_caller_counter(ref world: IWorldDispatcher) {
+        fn increment_caller_counter(ref self: ContractState) {
+            let mut world = self.world(@"onchain_dash");
             let caller = get_caller_address();
-            let mut counter = get!(world, caller, (CallerCounter));
+            let mut counter: CallerCounter = world.read_model(caller);
             counter.counter += 1;
 
-            set!(world, (counter));
+            world.write_model(@counter);
         }
 
-        fn change_theme(ref world: IWorldDispatcher, value: u8) {
+        fn change_theme(ref self: ContractState, value: u8) {
+            let mut world = self.world(@"onchain_dash");
             let caller = get_caller_address();
-            let mut theme = get!(world, WORLD_THEME_KEY, (Theme));
+            let mut theme: Theme = world.read_model(WORLD_THEME_KEY);
             theme.value = value.into();
             theme.caller = caller;
             theme.timestamp = starknet::get_block_timestamp();
 
-            set!(world, (theme));
+            world.write_model(@theme);
         }
     }
 }

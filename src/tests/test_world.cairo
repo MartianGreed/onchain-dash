@@ -1,34 +1,49 @@
 #[cfg(test)]
 mod tests {
-    // import world dispatcher
-    use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
-    // import test utils
-    use dojo::utils::test::{spawn_test_world, deploy_contract};
-    // import test utils
+    use dojo_cairo_test::WorldStorageTestTrait;
+    use dojo::model::{ModelStorage, ModelValueStorage, ModelStorageTest};
+    use dojo::world::{WorldStorageTrait, WorldStorage};
+    use dojo_cairo_test::{
+        spawn_test_world, NamespaceDef, TestResource, ContractDefTrait, ContractDef
+    };
+
     use onchain_dash::{
         systems::{actions::{actions, IActionsDispatcher, IActionsDispatcherTrait}},
-        models::{{GlobalCounter, CallerCounter, WORLD_GLOBAL_COUNTER_KEY, Theme, WORLD_THEME_KEY, AvailableTheme}},
+        models::{
+            {
+                GlobalCounter, m_GlobalCounter, CallerCounter, m_CallerCounter,
+                WORLD_GLOBAL_COUNTER_KEY, Theme, m_Theme, WORLD_THEME_KEY, AvailableTheme
+            }
+        },
     };
-    use onchain_dash::models::{global_counter, caller_counter, theme};
+
     use starknet::{testing, contract_address_const};
 
-    fn setup_world() -> (IWorldDispatcher, IActionsDispatcher) {
-        let mut models = array![
-            global_counter::TEST_CLASS_HASH,
-            caller_counter::TEST_CLASS_HASH,
-            theme::TEST_CLASS_HASH,
-        ];
-        // models
+    fn ndef() -> NamespaceDef {
+        NamespaceDef {
+            namespace: "onchain_dash", resources: [
+                TestResource::Model(m_GlobalCounter::TEST_CLASS_HASH.try_into().unwrap()),
+                TestResource::Model(m_CallerCounter::TEST_CLASS_HASH.try_into().unwrap()),
+                TestResource::Model(m_Theme::TEST_CLASS_HASH.try_into().unwrap()),
+                TestResource::Contract(actions::TEST_CLASS_HASH),
+            ].span(),
+        }
+    }
+    fn contract_defs() -> Span<ContractDef> {
+        [
+            ContractDefTrait::new(@"onchain_dash", @"actions")
+                .with_writer_of([dojo::utils::bytearray_hash(@"onchain_dash")].span())
+        ].span()
+    }
 
-        // deploy world with models
-        let world = spawn_test_world(["onchain_dash"].span(), models.span());
+    fn setup_world() -> (WorldStorage, IActionsDispatcher) {
+        let ndef = ndef();
+        let mut world = spawn_test_world([ndef].span());
+        world.sync_perms_and_inits(contract_defs());
 
-        // deploy systems contract
-        let contract_address = world
-            .deploy_contract('salt', actions::TEST_CLASS_HASH.try_into().unwrap());
+        let (contract_address, _) = world.dns(@"actions").unwrap();
         let actions_system = IActionsDispatcher { contract_address };
 
-        world.grant_writer(dojo::utils::bytearray_hash(@"onchain_dash"), contract_address);
         (world, actions_system)
     }
 
@@ -37,13 +52,15 @@ mod tests {
     fn test_world_counter() {
         let (world, actions_system) = setup_world();
 
-        let counter = get!(world, WORLD_GLOBAL_COUNTER_KEY, (GlobalCounter));
+        let counter: GlobalCounter = world.read_model(WORLD_GLOBAL_COUNTER_KEY);
         assert(counter.counter == 0, 'world initial count invalid');
         actions_system.increment_global_counter();
-        let counter = get!(world, WORLD_GLOBAL_COUNTER_KEY, (GlobalCounter));
+
+        let counter: GlobalCounter = world.read_model(WORLD_GLOBAL_COUNTER_KEY);
         assert(counter.counter == 1, 'global increment is not working');
         actions_system.increment_global_counter();
-        let counter = get!(world, WORLD_GLOBAL_COUNTER_KEY, (GlobalCounter));
+
+        let counter: GlobalCounter = world.read_model(WORLD_GLOBAL_COUNTER_KEY);
         assert(counter.counter == 2, 'global increment is not working');
     }
 
@@ -54,27 +71,27 @@ mod tests {
 
         let (world, actions_system) = setup_world();
 
-        let counter = get!(world, caller_1, (CallerCounter));
+        let counter: CallerCounter = world.read_model(caller_1);
         assert(counter.counter == 0, 'caller_1 init count invalid');
 
         testing::set_caller_address(caller_1);
         actions_system.increment_caller_counter();
 
-        let counter = get!(world, caller_1, (CallerCounter));
+        let counter: CallerCounter = world.read_model(caller_1);
         assert(counter.counter == 1, 'caller_1 incr is not working');
 
         let caller_2 = contract_address_const::<0x1>();
 
-        let counter_2 = get!(world, caller_2, (CallerCounter));
+        let counter_2: CallerCounter = world.read_model(caller_2);
         assert(counter_2.counter == 0, 'caller_2 init count invalid');
 
         testing::set_caller_address(caller_2);
         actions_system.increment_caller_counter();
 
-        let counter_2 = get!(world, caller_1, (CallerCounter));
+        let counter_2: CallerCounter = world.read_model(caller_1);
         assert(counter_2.counter == 2, 'caller_2 incr is not working');
 
-        let counter_1 = get!(world, caller_1, (CallerCounter));
+        let counter_1: CallerCounter = world.read_model(caller_1);
         assert(counter_1.counter != 1, 'caller_1 has changed value');
     }
 
@@ -82,10 +99,10 @@ mod tests {
     fn test_theme() {
         let (world, actions_system) = setup_world();
 
-        let theme = get!(world, WORLD_THEME_KEY, (Theme));
+        let theme: Theme = world.read_model(WORLD_THEME_KEY);
         assert(theme.value == AvailableTheme::Light, 'theme initial value invalid');
         actions_system.change_theme(AvailableTheme::Dark.into());
-        let theme = get!(world, WORLD_THEME_KEY, (Theme));
+        let theme: Theme = world.read_model(WORLD_THEME_KEY);
         assert(theme.value == AvailableTheme::Dark, 'theme change is not working');
     }
 }
