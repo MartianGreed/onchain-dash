@@ -19,6 +19,7 @@ pub struct CallerCounter {
     #[key]
     pub caller: ContractAddress,
     pub counter: felt252,
+    pub timestamp: Option<u64>,
 }
 
 #[derive(Drop, Serde)]
@@ -42,11 +43,13 @@ pub struct Theme {
 }
 
 #[derive(Drop, Serde, Introspect, PartialEq, Debug)]
-#[dojo::model]
 enum AvailableTheme {
     Light,
     Dark,
     Dojo,
+    //t1: u32,
+    //custom: CustomTheme,
+    //option: Option<AvailableTheme>,
 }
 
 impl AvailableThemeIntoFelt252 of core::traits::Into<AvailableTheme, felt252> {
@@ -83,9 +86,8 @@ impl U8IntoAvailableTheme of core::traits::Into<u8, AvailableTheme> {
         }
     }
 }
-
 // impl AvailableThemeEq of core::traits::PartialEq<AvailableTheme> {
-//     #[inline]   
+//     #[inline]
 //     fn eq(lhs: @AvailableTheme, rhs: @AvailableTheme) -> bool {
 //         lhs == rhs
 //     }
@@ -95,3 +97,4 @@ impl U8IntoAvailableTheme of core::traits::Into<u8, AvailableTheme> {
 //         lhs != rhs
 //     }
 // }
+

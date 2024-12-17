@@ -1243,8 +1243,8 @@
   },
   "contracts": [
     {
-      "address": "0x5301e3b918f705decfe189231011cc0b630e94220151ebc16f9432bcdd38229",
-      "class_hash": "0x2422139b74528c4d3ccf022e19b7c630f003467b067135551a96b4b664ffad4",
+      "address": "0x538f75a80bb88c3a8f24243d374ea092b0cdaeae590211d3252a19b50bb9c74",
+      "class_hash": "0x579613325643b747d5957e4f8b6d71b4910f6cdf8e7b79d0169779755edc36c",
       "abi": [
         {
           "type": "impl",
@@ -1302,6 +1302,24 @@
           "interface_name": "onchain_dash::systems::actions::IActions"
         },
         {
+          "type": "enum",
+          "name": "onchain_dash::models::AvailableTheme",
+          "variants": [
+            {
+              "name": "Light",
+              "type": "()"
+            },
+            {
+              "name": "Dark",
+              "type": "()"
+            },
+            {
+              "name": "Dojo",
+              "type": "()"
+            }
+          ]
+        },
+        {
           "type": "interface",
           "name": "onchain_dash::systems::actions::IActions",
           "items": [
@@ -1325,7 +1343,7 @@
               "inputs": [
                 {
                   "name": "value",
-                  "type": "core::integer::u8"
+                  "type": "onchain_dash::models::AvailableTheme"
                 }
               ],
               "outputs": [],
@@ -1462,7 +1480,7 @@
   "models": [
     {
       "members": [],
-      "class_hash": "0x41846eb7d141cb1965b377a7614086241bf59204aa8d96a91424bd68eeea02f",
+      "class_hash": "0x681a1ae462d2ab763728e02f8224f41b1a236f1e38e486c847a4974f4ebfdd3",
       "tag": "onchain_dash-CallerCounter",
       "selector": "0x5b035b49e461e9d356199bce4d5408a6359382535df8643843b78f2b3d4691d"
     },
