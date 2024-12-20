@@ -37,9 +37,14 @@ pub struct Message {
 pub struct Theme {
     #[key]
     theme_key: u32,
-    pub value: AvailableTheme,
+    pub value: DashboardTheme,
     pub caller: ContractAddress,
     pub timestamp: u64,
+}
+#[derive(Drop, Serde, Introspect, PartialEq, Debug)]
+enum DashboardTheme {
+    Predefined: AvailableTheme,
+    Custom: CustomTheme
 }
 
 #[derive(Drop, Serde, Introspect, PartialEq, Debug)]
@@ -47,9 +52,11 @@ enum AvailableTheme {
     Light,
     Dark,
     Dojo,
-    //t1: u32,
-    //custom: CustomTheme,
-    //option: Option<AvailableTheme>,
+}
+
+#[derive(Drop, Serde, Introspect, PartialEq, Debug)]
+pub struct CustomTheme {
+    pub classname: felt252,
 }
 
 impl AvailableThemeIntoFelt252 of core::traits::Into<AvailableTheme, felt252> {
@@ -86,15 +93,3 @@ impl U8IntoAvailableTheme of core::traits::Into<u8, AvailableTheme> {
         }
     }
 }
-// impl AvailableThemeEq of core::traits::PartialEq<AvailableTheme> {
-//     #[inline]
-//     fn eq(lhs: @AvailableTheme, rhs: @AvailableTheme) -> bool {
-//         lhs == rhs
-//     }
-
-//     #[inline]
-//     fn ne(lhs: @AvailableTheme, rhs: @AvailableTheme) -> bool {
-//         lhs != rhs
-//     }
-// }
-

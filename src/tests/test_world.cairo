@@ -12,7 +12,7 @@ mod tests {
         models::{
             {
                 GlobalCounter, m_GlobalCounter, CallerCounter, m_CallerCounter,
-                WORLD_GLOBAL_COUNTER_KEY, Theme, m_Theme, WORLD_THEME_KEY, AvailableTheme
+                WORLD_GLOBAL_COUNTER_KEY, Theme, m_Theme, WORLD_THEME_KEY, DashboardTheme, AvailableTheme
             }
         },
     };
@@ -100,9 +100,9 @@ mod tests {
         let (world, actions_system) = setup_world();
 
         let theme: Theme = world.read_model(WORLD_THEME_KEY);
-        assert(theme.value == AvailableTheme::Light, 'theme initial value invalid');
-        actions_system.change_theme(AvailableTheme::Dark.into());
+        assert(theme.value == DashboardTheme::Predefined(AvailableTheme::Light), 'theme initial value invalid');
+        actions_system.change_theme(DashboardTheme::Predefined(AvailableTheme::Dark));
         let theme: Theme = world.read_model(WORLD_THEME_KEY);
-        assert(theme.value == AvailableTheme::Dark, 'theme change is not working');
+        assert(theme.value == DashboardTheme::Predefined(AvailableTheme::Dark), 'theme change is not working');
     }
 }

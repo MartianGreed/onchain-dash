@@ -1,7 +1,7 @@
 {
   "world": {
-    "class_hash": "0x79d9ce84b97bcc2a631996c3100d57966fc2f5b061fb1ec4dfd0040976bcac6",
-    "address": "0x338b87c85e7d798cf3c6e3605bf4d233a54328e9811c00c0b27ea3a20305615",
+    "class_hash": "0x45575a88cc5cef1e444c77ce60b7b4c9e73a01cbbe20926d5a4c72a94011410",
+    "address": "0x50c0ffdac47874395e9dc48bd7a2ed14ef75e18a561c37cc82d3487e69646ea",
     "seed": "onchain_dash_2",
     "name": "Onchain Dash",
     "entrypoints": [
@@ -92,6 +92,10 @@
           {
             "name": "metadata_uri",
             "type": "core::byte_array::ByteArray"
+          },
+          {
+            "name": "metadata_hash",
+            "type": "core::felt252"
           }
         ]
       },
@@ -1002,6 +1006,11 @@
             "name": "uri",
             "type": "core::byte_array::ByteArray",
             "kind": "data"
+          },
+          {
+            "name": "hash",
+            "type": "core::felt252",
+            "kind": "data"
           }
         ]
       },
@@ -1243,8 +1252,8 @@
   },
   "contracts": [
     {
-      "address": "0x538f75a80bb88c3a8f24243d374ea092b0cdaeae590211d3252a19b50bb9c74",
-      "class_hash": "0x579613325643b747d5957e4f8b6d71b4910f6cdf8e7b79d0169779755edc36c",
+      "address": "0x2aebce33d6aadfa2ba47b3b2cf6f4994d8d4671902b2ce2bccce8f0aee32b0",
+      "class_hash": "0x3c9ca614e918bd770f377aff4d58249a1846bff8f0f99bd594b9b0452fae33f",
       "abi": [
         {
           "type": "impl",
@@ -1320,6 +1329,30 @@
           ]
         },
         {
+          "type": "struct",
+          "name": "onchain_dash::models::CustomTheme",
+          "members": [
+            {
+              "name": "classname",
+              "type": "core::felt252"
+            }
+          ]
+        },
+        {
+          "type": "enum",
+          "name": "onchain_dash::models::DashboardTheme",
+          "variants": [
+            {
+              "name": "Predefined",
+              "type": "onchain_dash::models::AvailableTheme"
+            },
+            {
+              "name": "Custom",
+              "type": "onchain_dash::models::CustomTheme"
+            }
+          ]
+        },
+        {
           "type": "interface",
           "name": "onchain_dash::systems::actions::IActions",
           "items": [
@@ -1343,7 +1376,7 @@
               "inputs": [
                 {
                   "name": "value",
-                  "type": "onchain_dash::models::AvailableTheme"
+                  "type": "onchain_dash::models::DashboardTheme"
                 }
               ],
               "outputs": [],
@@ -1498,7 +1531,7 @@
     },
     {
       "members": [],
-      "class_hash": "0x41a093b2656a6f5802d8bea174e7ba80c71a4f6bd83a4ef0bf6d16cb8172ca2",
+      "class_hash": "0x501fcd9a129138e549a6d1452b3a11515dbe6fc04fb0fa88ebc806d6265b305",
       "tag": "onchain_dash-Theme",
       "selector": "0x614247de97b164e5b66565d6cd80405ff19c700cd848330310da9464286f72"
     }
