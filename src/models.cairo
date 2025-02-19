@@ -1,5 +1,4 @@
 use starknet::ContractAddress;
-use traits::Drop;
 
 pub const WORLD_GLOBAL_COUNTER_KEY: u32 = 9999999;
 pub const WORLD_THEME_KEY: u32 = 9999999;
@@ -27,9 +26,9 @@ pub struct CallerCounter {
 pub struct Message {
     #[key]
     pub identity: ContractAddress,
-    pub content: ByteArray,
     #[key]
     pub timestamp: u64,
+    pub content: ByteArray,
 }
 
 #[derive(Drop, Serde)]
@@ -42,13 +41,13 @@ pub struct Theme {
     pub timestamp: u64,
 }
 #[derive(Drop, Serde, Introspect, PartialEq, Debug)]
-enum DashboardTheme {
+pub enum DashboardTheme {
     Predefined: AvailableTheme,
     Custom: CustomTheme
 }
 
 #[derive(Drop, Serde, Introspect, PartialEq, Debug)]
-enum AvailableTheme {
+pub enum AvailableTheme {
     Light,
     Dark,
     Dojo,

@@ -2,7 +2,7 @@ use onchain_dash::models::DashboardTheme;
 
 // define the interface
 #[starknet::interface]
-trait IActions<T> {
+pub trait IActions<T> {
     fn increment_global_counter(ref self: T);
     fn increment_caller_counter(ref self: T);
     fn change_theme(ref self: T, value: DashboardTheme);
@@ -10,14 +10,14 @@ trait IActions<T> {
 
 // dojo decorator
 #[dojo::contract]
-mod actions {
+pub mod actions {
     use super::{IActions};
-    use dojo::model::{ModelStorage, ModelValueStorage};
+    use dojo::model::ModelStorage;
     use onchain_dash::models::{
         GlobalCounter, CallerCounter, WORLD_GLOBAL_COUNTER_KEY, Theme, WORLD_THEME_KEY,
         DashboardTheme
     };
-    use starknet::{ContractAddress, get_caller_address, get_block_timestamp};
+    use starknet::{get_caller_address, get_block_timestamp};
 
     #[abi(embed_v0)]
     impl ActionsImpl of IActions<ContractState> {
