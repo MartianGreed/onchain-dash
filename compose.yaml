@@ -3,7 +3,7 @@ services:
     build: .
     command: >
       /bin/sh -c '
-      RUST_LOG=info katana --dev --dev.no-fee --http.addr 0.0.0.0 --http.cors_origins "*"
+      RUST_LOG=info katana --dev --dev.no-fee --http.addr 0.0.0.0 --http.cors_origins "*" --cartridge.paymaster
       '
     ports:
       - 5050:5050
@@ -20,7 +20,7 @@ services:
     depends_on:
       katana:
         condition: service_healthy
-    command: ["/bin/sh", "-c", "cd /app && sozo migrate --rpc-url http://katana:5050 --cartridge.paymaster"]
+    command: ["/bin/sh", "-c", "cd /app && sozo migrate --rpc-url http://katana:5050"]
     restart: on-failure
 
   torii:
