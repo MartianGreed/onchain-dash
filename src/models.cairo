@@ -1,4 +1,7 @@
 use starknet::ContractAddress;
+use core::byte_array::ByteArray;
+use core::serde::Serde;
+use dojo::storage::dojo_store::DojoStore;
 
 pub const WORLD_GLOBAL_COUNTER_KEY: u32 = 9999999;
 pub const WORLD_THEME_KEY: u32 = 9999999;
@@ -31,7 +34,7 @@ pub struct Message {
     pub content: ByteArray,
 }
 
-#[derive(Drop, Serde)]
+#[derive(Copy, Drop, Serde, Introspect)]
 #[dojo::model]
 pub struct Theme {
     #[key]
@@ -40,20 +43,21 @@ pub struct Theme {
     pub caller: ContractAddress,
     pub timestamp: u64,
 }
-#[derive(Drop, Serde, Introspect, PartialEq, Debug)]
+
+#[derive(Drop, Serde, Copy, Introspect)]
 pub enum DashboardTheme {
     Predefined: AvailableTheme,
-    Custom: CustomTheme
+    Custom: CustomTheme,
 }
 
-#[derive(Drop, Serde, Introspect, PartialEq, Debug)]
+#[derive(Drop, Serde, Copy, Introspect)]
 pub enum AvailableTheme {
     Light,
     Dark,
     Dojo,
 }
 
-#[derive(Drop, Serde, Introspect, PartialEq, Debug)]
+#[derive(Drop, Serde, Copy, Introspect)]
 pub struct CustomTheme {
     pub classname: felt252,
 }
@@ -90,5 +94,15 @@ impl U8IntoAvailableTheme of core::traits::Into<u8, AvailableTheme> {
             2 => AvailableTheme::Dojo,
             _ => AvailableTheme::Light,
         }
+    }
+}
+
+impl DashboardThemeDojoStore of DojoStore<DashboardTheme> {
+    fn dojo_serialize(self: @DashboardTheme, ref serialized: Array<felt252>) {
+        Serde::serialize(self, ref serialized);
+    }
+
+    fn dojo_deserialize(ref values: Span<felt252>) -> Option<DashboardTheme> {
+        Serde::<DashboardTheme>::deserialize(ref values)
     }
 }
