@@ -14,8 +14,8 @@ pub mod actions {
     use super::{IActions};
     use dojo::model::ModelStorage;
     use onchain_dash::models::{
-        GlobalCounter, CallerCounter, WORLD_GLOBAL_COUNTER_KEY, Theme, WORLD_THEME_KEY,
-        DashboardTheme
+        GlobalCounter, CallerCounter, WORLD_GLOBAL_COUNTER_KEY, WORLD_THEME_KEY,
+        DashboardTheme, theme_from_dashboard
     };
     use starknet::{get_caller_address, get_block_timestamp};
 
@@ -42,10 +42,8 @@ pub mod actions {
         fn change_theme(ref self: ContractState, value: DashboardTheme) {
             let mut world = self.world(@"onchain_dash");
             let caller = get_caller_address();
-            let mut theme: Theme = world.read_model(WORLD_THEME_KEY);
-            theme.value = value;
-            theme.caller = caller;
-            theme.timestamp = starknet::get_block_timestamp();
+            let timestamp = starknet::get_block_timestamp();
+            let theme = theme_from_dashboard(WORLD_THEME_KEY, value, caller, timestamp);
 
             world.write_model(@theme);
         }

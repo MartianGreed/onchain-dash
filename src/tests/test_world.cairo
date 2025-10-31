@@ -1,8 +1,11 @@
 #[cfg(test)]
+#[feature("deprecated-starknet-consts")]
 mod tests {
+    use core::traits::TryInto;
     use dojo_cairo_test::WorldStorageTestTrait;
-    use dojo::model::ModelStorage;
+    use dojo::model::{ModelStorage, ModelStorageTest};
     use dojo::world::{WorldStorageTrait, WorldStorage};
+    use dojo::world::world;
     use dojo_cairo_test::{
         spawn_test_world, NamespaceDef, TestResource, ContractDefTrait, ContractDef
     };
@@ -12,7 +15,8 @@ mod tests {
         models::{
             {
                 GlobalCounter, m_GlobalCounter, CallerCounter, m_CallerCounter,
-                WORLD_GLOBAL_COUNTER_KEY, Theme, m_Theme, WORLD_THEME_KEY, DashboardTheme, AvailableTheme
+                WORLD_GLOBAL_COUNTER_KEY, Theme, m_Theme, WORLD_THEME_KEY, DashboardTheme, AvailableTheme,
+                theme_with_value
             }
         },
     };
@@ -38,7 +42,7 @@ mod tests {
 
     fn setup_world() -> (WorldStorage, IActionsDispatcher) {
         let ndef = ndef();
-        let mut world = spawn_test_world([ndef].span());
+        let mut world = spawn_test_world(world::TEST_CLASS_HASH.try_into().unwrap(), [ndef].span());
         world.sync_perms_and_inits(contract_defs());
 
         let (contract_address, _) = world.dns(@"actions").unwrap();
@@ -97,12 +101,29 @@ mod tests {
 
     #[test]
     fn test_theme() {
-        let (world, actions_system) = setup_world();
+        let (mut world, actions_system) = setup_world();
 
+        world.write_model_test(
+            @theme_with_value(
+                WORLD_THEME_KEY,
+                'light',
+                contract_address_const::<0x0>(),
+                0,
+            ),
+        );
+
+        testing::set_caller_address(contract_address_const::<0x0>());
+        actions_system.change_theme(DashboardTheme::Predefined(AvailableTheme::Light));
         let theme: Theme = world.read_model(WORLD_THEME_KEY);
-        assert(theme.value == DashboardTheme::Predefined(AvailableTheme::Light), 'theme initial value invalid');
+        assert(
+            theme.value == 'light',
+            'theme initial value invalid'
+        );
         actions_system.change_theme(DashboardTheme::Predefined(AvailableTheme::Dark));
         let theme: Theme = world.read_model(WORLD_THEME_KEY);
-        assert(theme.value == DashboardTheme::Predefined(AvailableTheme::Dark), 'theme change is not working');
+        assert(
+            theme.value == 'dark',
+            'theme change is not working'
+        );
     }
 }
